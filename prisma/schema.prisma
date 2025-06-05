@@ -12,4 +12,7 @@ datasource db {
 
 
 // 5433
-// psql "postgres://postgres:temiloluwa@localhost:5432/cdw"   
+// psql "postgres://postgres:temiloluwa@localhost:5432/cdw"
+// cdw=# GRANT ALL PRIVILEGES ON SCHEMA public to postgres
+// cdw-# ALTER SCHEMA public TO postgres
+// cdw-# GRANT ALL ON SCHEMA public to postgres

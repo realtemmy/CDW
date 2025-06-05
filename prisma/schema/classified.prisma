@@ -33,6 +33,7 @@ model Classified {
     @@index([status], name: "index_status")
     @@index([price], name: "index_price")
     @@map("classifieds")
+    Model Model[]
 }
 
 enum ClassifiedStatus {
