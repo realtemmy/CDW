@@ -69,7 +69,7 @@ export async function seedTaxonomy(prisma: PrismaClient) {
     }
   }
 
-    console.log(Object.entries(result).length);
+    // console.log(Object.entries(result).length);
 
   const makePromises = Object.entries(result).map(([name]) => {
     return prisma.make.upsert({

@@ -1,14 +1,12 @@
-
-
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../src/generated/prisma"
-  previewFeatures = ["strictUndefinedChecks", "driverAdapters"]
+    provider        = "prisma-client-js"
+    output          = "../src/generated/prisma"
+    previewFeatures = ["strictUndefinedChecks", "driverAdapters"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Classified {
@@ -26,7 +24,7 @@ model Classified {
     make           Make             @relation(fields: [makeId], references: [id])
     makeId         Int              @map("make_id")
     modelId        Int              @map("model_id")
-    modelVariantId Int              @map("model_variant_id")
+    modelVariantId Int?             @map("model_variant_id")
     modelVariant   ModelVariant?    @relation(fields: [modelVariantId], references: [id])
     ulezCompliance ULEZCompliance   @default(EXEMPT)
     transmission   Transmission     @default(MANUAL)
@@ -41,12 +39,12 @@ model Classified {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Model     Model[]
 
     @@index([makeId, modelId], name: "index_make_model")
     @@index([status], name: "index_status")
     @@index([price], name: "index_price")
     @@map("classifieds")
-    Model Model[]
 }
 
 enum ClassifiedStatus {
@@ -117,11 +115,9 @@ model CustomerLifeCycle {
     createdAt  DateTime       @default(now()) @map("created_at")
     updatedAt  DateTime       @updatedAt @map("updated_at")
 
-
-@@index([customerId, createdAt])
+    @@index([customerId, createdAt])
     @@map("customer_lifecycle")
 }
-
 
 model Customer {
     id            Int            @id @default(autoincrement())
@@ -151,13 +147,13 @@ enum CustomerStatus {
 }
 
 model Image {
-    id Int @id @default(autoincrement())
-    alt String
-    src String
-    classifiedId Int @map("classified_id")
-    classified Classified @relation(fields: [classifiedId], references: [id], onDelete: Cascade)
-    blurhash String
-    isMain Boolean @default(false) @map("is_main")
+    id           Int        @id @default(autoincrement())
+    alt          String
+    src          String
+    classifiedId Int        @map("classified_id")
+    classified   Classified @relation(fields: [classifiedId], references: [id], onDelete: Cascade)
+    blurhash     String
+    isMain       Boolean    @default(false) @map("is_main")
 
     @@map("images")
 }
@@ -215,24 +211,18 @@ model ModelVariant {
 }
 
 model User {
-    id             String   @id @default(uuid())
-    email          String   @unique
-    hashedPassword String   @map("hashed_password")
+    id             String    @id @default(uuid())
+    email          String    @unique
+    hashedPassword String    @map("hashed_password")
     session        Session[]
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
 
     @@map("users")
 }
-
-
-
-
-
 
 // 5433
 // psql "postgres://postgres:temiloluwa@localhost:5432/cdw"
 // cdw=# GRANT ALL PRIVILEGES ON SCHEMA public to postgres
 // cdw-#  ALTER SCHEMA public OWNER to postgres
 // cdw-# GRANT ALL ON SCHEMA public to postgres
-
