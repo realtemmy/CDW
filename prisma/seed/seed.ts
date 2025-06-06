@@ -5,13 +5,14 @@ import { seedTaxonomy } from "./taxonomy.seed";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding database...");
-  console.log(Object.keys(prisma)); // should include: make, model, modelVariant
+  await prisma.$executeRaw`TRUNCATE TABLE "makes", "models" RESTART IDENTITY CASCADE`;
   await seedTaxonomy(prisma);
 }
 
-main().catch(e => {
-    throw e
-}).finally(async () => {
+main()
+  .catch((e) => {
+    throw e;
+  })
+  .finally(async () => {
     await prisma.$disconnect();
-})
+  });
