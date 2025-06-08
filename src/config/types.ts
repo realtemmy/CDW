@@ -1,3 +1,5 @@
+import { Prisma } from "@/generated/prisma";
+
 type Params = {
   [x: string]: string | string[];
 };
@@ -12,3 +14,9 @@ export type AwaitedPageProps = {
     params: Awaited<PageProps["params"]>;
     searchParams: Awaited<PageProps["searchParams"]>;
 }
+
+export type classifiedWithImages = Prisma.ClassifiedGetPayload<{
+  include: {
+    images: true;
+  };
+}>;
