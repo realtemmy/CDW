@@ -14,6 +14,7 @@ import { HTMLParser } from "../shared/html-parser";
 import { Cog, Fuel, GaugeCircle, Paintbrush2 } from "lucide-react";
 import { de } from "@faker-js/faker";
 import { Button } from "../ui/button";
+import { FavoriteButton } from "@/app/(presentation)/inventory/favorite-button";
 
 interface ClassifiedCardProps {
   classified: classifiedWithImages;
@@ -127,6 +128,7 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
             quality={25}
           />
         </Link>
+        <FavoriteButton  />
         <div className="absolute top-2.5  right-3.5 bg-primary text-slate-50 font-bold px-2 py-1 rounded">
           <p className="text-xs lg:text-base xl:text-lg font-semibold">
             {classified.price}
