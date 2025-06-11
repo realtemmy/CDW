@@ -8,9 +8,9 @@ interface ClassifiedListProps {
 export const ClassifiedList = (props: ClassifiedListProps)=>{
     const { classifieds } = props;
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-">
         {classifieds.map((classified) => (
-          <ClassifiedCard key={classified.id} classified={classified} />
+          <ClassifiedCard key={classified.id} classified={classified}/>
         ))}
       </div>
     );

@@ -9,10 +9,11 @@ import {
   Prisma,
   Transmission,
 } from "@/generated/prisma";
-import { classifiedWithImages } from "@/config/types";
+import { classifiedWithImages, MultiStepFormEnum } from "@/config/types";
 import { HTMLParser } from "../shared/html-parser";
 import { Cog, Fuel, GaugeCircle, Paintbrush2 } from "lucide-react";
 import { de } from "@faker-js/faker";
+import { Button } from "../ui/button";
 
 interface ClassifiedCardProps {
   classified: classifiedWithImages;
@@ -93,17 +94,19 @@ const getKeyClassifiedInfo = (classified: classifiedWithImages) => {
     {
       id: "transmission",
       icon: <Cog className="w-4 h-4" />,
-      value: formatTransmission(classified?.transmission),
+      value: classified.transmission
+        ? formatTransmission(classified.transmission)
+        : null,
     },
     {
       id: "fuelType",
       icon: <Fuel className="w-4 h-4" />,
-      value: formatFuelType(classified?.fuelType),
+      value: classified.fuelType ? formatFuelType(classified.fuelType) : null,
     },
     {
       id: "colour",
       icon: <Paintbrush2 className="w-4 h-4" />,
-      value: formatColour(classified?.colour),
+      value: classified.colour ? formatColour(classified.colour) : null,
     },
   ];
 };
@@ -111,7 +114,7 @@ const getKeyClassifiedInfo = (classified: classifiedWithImages) => {
 export const ClassifiedCard = (props: ClassifiedCardProps) => {
   const { classified } = props;
   return (
-    <div className="bg-white relative rounded-md shadow-md overflow-hidden flex flex-col">
+    <div className="bg-white relative rounded-md shadow-md overflow-hidden flex flex-col p-2">
       <div className="aspect-[3/2] relative">
         <Link href={routes.singleClassified(classified.slug)}>
           <Image
@@ -156,6 +159,29 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
               </li>
             ))}
         </ul>
+      </div>
+      <div className="mt-4 flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:gap-x-2 w-full">
+        <Button
+          className="flex-1 transition-colors hover:border-white hover:bg-primary hover:text-white py-2 lg:py-2.5 h-full text-xs md:text-sm  xl:text-base"
+          asChild
+          variant="outline"
+          size="sm"
+        >
+          <Link
+            href={routes.reserve(classified.slug, MultiStepFormEnum.WELCOME)}
+          >
+            Reserve
+          </Link>
+        </Button>
+        <Button
+          className="flex-1 py-2 lg:py-2.5 h-full text-xs md:text-sm xl:text-base"
+          asChild
+          size="sm"
+        >
+          <Link href={routes.singleClassified(classified.slug)}>
+            View details
+          </Link>
+        </Button>
       </div>
     </div>
   );
